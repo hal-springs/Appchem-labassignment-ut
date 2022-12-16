@@ -62,7 +62,7 @@ function doPost(request) {
   var result = assignStudent(context.user,context.body.replace(' ','')); //{status:$str}
 
   if(result.status=='ok'){
-    sendDMToSlack([context.user],'#研究室配属希望を受け付けました。誤って送信した場合は、研振り担当委員(安藤、門、吉原）まで直ちにご連絡ください。');
+    sendDMToSlack([context.user],'#研究室配属希望を受け付けました。誤って送信した場合は、研振り担当委員まで直ちにご連絡ください。');
     
     const nextStudents = pickNextStudents();
     if(nextStudents.length==0){

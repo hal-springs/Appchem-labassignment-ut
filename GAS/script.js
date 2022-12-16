@@ -1,18 +1,19 @@
 //スプレッドシートに関する定数
 const sheet_id = '<sheetid>'; //シートid
-//const sheet_id = '1ZFADy86OIdUJz-2zwBl3rvDLSqnVkXq_AVIGjjamk9w'; //デバッグ用
 const sname_list = '<sheetname1>' //生徒リストのシート名
 const sname_vac = '<sheetname2>'; //空き状況のシート名
-const userid_col = 6; //slackuseridの列番号-1
-const isAssigned_col = 9; //配属フラグの列番号-1
-const assign_col = 8; //配属先の列番号-1
-const typeOfAssign = 7; //配属枠の列番号-1
-const waitingResponse = 10; //同順位返信待ちフラグ
+const name_col = 1; //氏名の列番号-1
 const gpa_col = 2; //GPAの列番号-1
 const rank_col = 3; //順位の列番号-1
-const slack_name_col = 5; //slackusernameの列番号-1
 const remark_col=4; //備考の列番号-1
-const name_col = 1; //氏名の列番号-1
+const slack_name_col = 5; //slackusernameの列番号-1
+const userid_col = 6; //slackuseridの列番号-1
+const typeOfAssign = 7; //配属枠の列番号-1
+const assign_col = 8; //配属先の列番号-1
+const isAssigned_col = 9; //配属フラグの列番号-1
+const waitingResponse = 10; //同順位返信待ちフラグ
+
+
 
 //Slack apiに関する定数
 const admin_id = '<admin slack id>'; //管理者のSlackid
@@ -32,7 +33,7 @@ function getUserList(){
     },
   }
   const result = UrlFetchApp.fetch(url,req);
-  console.log(JSON.parse(result.getContentText()).members.map(x=>{return([x.profile.real_name,x.id])}))
+  
   for(let member of JSON.parse(result.getContentText()).members){
     data.forEach((student,ind)=>{
       if(student[slack_name_col].replace(' ','').replace('　','')==member.profile.real_name.replace(' ','').replace('　','')){
@@ -169,10 +170,6 @@ function assignStudent(user,body){
 
 }
 
-function test(){
-  setWaitingflag(pickNextStudents())
-}
-
 async function sendDMToSlack(users,body){
   const url = 'https://slack.com/api/chat.postMessage';
   for(let user of users){
@@ -202,6 +199,8 @@ async function sendDMToSlack(users,body){
       }
     }
     UrlFetchApp.fetch(url,req);
+    
+    //slack apiの負担軽減
     await new Promise((resolve)=>{
       setTimeout(resolve(),100);
     })

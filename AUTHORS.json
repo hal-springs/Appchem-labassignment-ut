@@ -1,5 +1,3 @@
-{
- package:'@slack/slack-bolt-sdk-example',
- author:'Slack Technologies, LLC',
- license:'MIT',
-}
+#package:@slack/slack-bolt-sdk-example'  
+##Author:Slack Technologies, LLC  
+##license:MIT
